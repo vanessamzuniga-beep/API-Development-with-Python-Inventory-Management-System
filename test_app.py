@@ -1,5 +1,6 @@
 import pytest
 from app import app, inventory
+import app as app_module
 
 
 @pytest.fixture
@@ -60,6 +61,12 @@ def test_delete_item(client):
 
 
 def test_search_product(client):
+    app_module.find_product = lambda barcode: {
+    "barcode": barcode,
+    "brands": "Cristaline",
+    "product_name": "isabelle",
+    "ingredients_text": "Eau de source"
+}
     response = client.get("/inventory/search/3274080005003")
 
     assert response.status_code == 200
